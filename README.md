@@ -14,3 +14,7 @@ E' anche equipaggiato con i seguenti componenti:
 1x - Voltage booster
 1x - Driver ponte-h per i motori max. 2A
 componentistica varia passiva
+
+
+
+link slides: https://slides.com/inky-davithecraft-incolto/sunrase/
