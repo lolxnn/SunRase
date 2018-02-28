@@ -2,10 +2,15 @@
  * SunRase 4.0 by: Reolfi Riccardo, Incolto Davide, Murialdo Andrea, Pastorino Simone.
  * Code by: Reolfi Riccardo & Incolto Davide.
 */
+#include <DHT.h>
+
 #include <LiquidCrystal.h>
+#include "DHT.h"
+#define DHTPIN 5
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
 #include <Servo.h>
 Servo motor_1;
-const int tempPin = A0;
 const int batPin = A1;
 LiquidCrystal lcd(4, 6, 10, 11, 12, 13);
 void setup() {
@@ -14,14 +19,20 @@ void setup() {
   pinMode(A1, INPUT);
   pinMode(A3, INPUT);
   lcd.begin(16, 2);
-  lcd.print("Avvio Motori");
-  int velocitaBrushless = map(analogRead(A3), 0, 1023, 100, 150);
+  lcd.print("Benvenuto su");
+  lcd.setCursor(0, 1);
+  lcd.print("SunRase 4.0");
+  int velocitaBrushless = 150;
   delay(1000);
   for(int i = 80; i < velocitaBrushless; i++){
+    lcd.setCursor(0, 0);
+    lcd.print("Avvio Motori");
     lcd.setCursor(0, 1);
-    lcd.print("Stato:", velocitaBrushless, 0, 100),"%")
+    lcd.print("Stato:");
+    lcd.print(map(i, 80, 150, 0, 100));
+    lcd.print("%");
     motor_1.write(i);
-    delay(10);
+    delay(110);
     lcd.clear();
   }
   lcd.clear();
@@ -31,21 +42,11 @@ void setup() {
 void loop() {
  lcd.setCursor(0, 0);
  lcd.print("Temp. Driver:");
- lcd.print(temp());
+ lcd.print(dht.readTemperature());
  lcd.setCursor(0, 1);
  lcd.print("Batteria:");
- lcd.print(batteria());
+ lcd.print(" ");
  lcd.print("%");
+ delay(50);
  lcd.clear();
-}
-float temp(){
-  int tempVal = analogRead(tempPin);
-  float millivolts = (tempVal / 1024.0) * 5000;
-  float celsius = millivolts / 10;
-  return celsius;
-}
-int batteria(){
-  int batVal = analogRead(batPin);
-  int batX100 = (batVal * 100) / 1024;
-  return batX100;
 }
