@@ -42,6 +42,26 @@ void loop() {
 void checkMag(){
   if(digitalRead(magnetic) == 1) giraCasuale();
 }
+bool destraCheck(){
+  digitalWrite(triggerDestra, LOW);
+  digitalWrite(triggerDestra, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerDestra, LOW);
+  durata = pulseIn(echoDestra, HIGH);
+  distanza = 0.034 * durata / 2;
+  if(distanza < 40) return true;  
+  else return false;
+ }
+ bool sinistraCheck(){
+  digitalWrite(triggerSinistra, LOW);
+  digitalWrite(triggerSinistra, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerSinistra, LOW);
+  durata = pulseIn(echoSinistra, HIGH);
+  distanza = 0.034 * durata / 2;
+  if(distanza < 40) return true;  
+  else return false;  
+ }
 
 int randNum(){
  int randNumber = random(300);
@@ -80,10 +100,6 @@ void giraD(){
    for(int i = 0; i < tempo_rotazione; i++){
        digitalWrite(motDestraA, LOW);
        digitalWrite(motSinistraA, HIGH);
-       if(DScontrol() == true){
-        giraSpecialeSinistra();
-        break;
-       }
        delay(1);
    }
    for(int i = 0; i < 10; i++){
@@ -126,76 +142,11 @@ void giraS(){
    for(int i = 0; i < tempo_rotazione; i++){
        digitalWrite(motDestraA, HIGH);
        digitalWrite(motSinistraA, LOW);
-       if(DScontrol() == true){
-        giraSpecialeSinistra();
-        break;
-       }
        delay(1);
    }
    for(int i = 0; i < 10; i++){
        digitalWrite(motDestraA, LOW);
        digitalWrite(motSinistraA, LOW);
        delay(1);
-}
-
-bool destraCheck(){
-  digitalWrite(triggerDestra, LOW);
-  digitalWrite(triggerDestra, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(triggerDestra, LOW);
-  durata = pulseIn(echoDestra, HIGH);
-  distanza = 0.034 * durata / 2;
-  if(distanza < 40) return true;  
-  else return false;
- }
- bool sinistraCheck(){
-  digitalWrite(triggerSinistra, LOW);
-  digitalWrite(triggerSinistra, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(triggerSinistra, LOW);
-  durata = pulseIn(echoSinistra, HIGH);
-  distanza = 0.034 * durata / 2;
-  if(distanza < 40) return true;  
-  else return false;  
- }
-bool DScontrol(){
-  if(digitalRead(magnetic) == 1) return true;
-}
-void giraSpecialeDestra(){
-  digitalWrite(motDestraA, LOW);
-  digitalWrite(motSinistraA, LOW);
-  delay(500);
-  digitalWrite(motDestraI, HIGH);
-  digitalWrite(motSinistraI, HIGH);
-  delay(1000);
-  digitalWrite(motDestraI, LOW);
-  digitalWrite(motSinistraI, LOW);
-  delay(10);
-  digitalWrite(motDestraA, LOW);
-  digitalWrite(motSinistraA, HIGH);
-  delay(tempo_rotazione); 
-  digitalWrite(motDestraA, LOW);
-  digitalWrite(motSinistraA, LOW);
-  delay(10);
-  digitalWrite(motDestraA, HIGH);
-  digitalWrite(motSinistraA, HIGH);
-}
-void giraSpecialeSinistra(){
-  digitalWrite(motDestraA, LOW);
-  digitalWrite(motSinistraA, LOW);
-  delay(500);
-  digitalWrite(motDestraI, HIGH);
-  digitalWrite(motSinistraI, HIGH);
-  delay(1000);
-  digitalWrite(motDestraI, LOW);
-  digitalWrite(motSinistraI, LOW);
-  delay(10);
-  digitalWrite(motDestraA, HIGH);
-  digitalWrite(motSinistraA, LOW);
-  delay(tempo_rotazione); 
-  digitalWrite(motDestraA, LOW);
-  digitalWrite(motSinistraA, LOW);
-  delay(10);
-  digitalWrite(motDestraA, HIGH);
-  digitalWrite(motSinistraA, HIGH);
+   }
 }
