@@ -2,16 +2,9 @@
  * SunRase 4.0 by: Reolfi Riccardo, Incolto Davide, Murialdo Andrea, Pastorino Simone.
  * Code by: Reolfi Riccardo & Incolto Davide.
 */
-#include <DHT.h>
-
 #include <LiquidCrystal.h>
-#include "DHT.h"
-#define DHTPIN 5
-#define DHTTYPE DHT11
-DHT dht(DHTPIN, DHTTYPE);
-#include <Servo.h>
-Servo motor_1;
 const int batPin = A1;
+int val_Adc = 0;
 LiquidCrystal lcd(4, 6, 10, 11, 12, 13);
 void setup() {
   motor_1.attach(9);
@@ -42,11 +35,16 @@ void setup() {
 void loop() {
  lcd.setCursor(0, 0);
  lcd.print("Temp. Driver:");
- lcd.print(dht.readTemperature());
+ lcd.print(readTemperature());
  lcd.setCursor(0, 1);
  lcd.print("Batteria:");
  lcd.print(" ");
  lcd.print("%");
  delay(50);
  lcd.clear();
+}
+float readTemperature(){
+  val_Adc = analogRead(0);
+  float tempe = ((val_Adc * 0.00488) - 0.5) / 0.01;
+  return tempe;
 }
