@@ -75,8 +75,9 @@ int randNum(){
 }
 
 void giraCasuale(){
-  if(randNum() == 1) giraD();
-  else if(randNum() ==2) giraS();
+  int y = randNum();
+  if(y == 1) giraD();
+  else if(y ==2) giraS();
 }
 
 void giraD(){
