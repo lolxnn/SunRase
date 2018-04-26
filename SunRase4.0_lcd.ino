@@ -1,10 +1,13 @@
 /*
- * SunRase 4.0 by: Reolfi Riccardo, Incolto Davide, Murialdo Andrea, Pastorino Simone.
+ * SunRase 4.0 by: Reolfi Riccardo, Incolto Davide, Murialdo Andrea, Pastorino Simone, Santo Alessandro.
  * Code by: Reolfi Riccardo & Incolto Davide.
 */
 #include <LiquidCrystal.h>
 const int batPin = A1;
 int val_Adc = 0;
+unsigned int oldSpeed;
+unsigned int newSpeed;
+int startSetSpeed;
 LiquidCrystal lcd(4, 6, 10, 11, 12, 13);
 void setup() {
   motor_1.attach(9);
@@ -29,22 +32,35 @@ void setup() {
     lcd.clear();
   }
   lcd.clear();
-  
+  startSetSpeed = map(analogRead(A0), 0, 1023, 0, 150);
 }
 
 void loop() {
  lcd.setCursor(0, 0);
- lcd.print("Temp. Driver:");
+ lcd.print("Temp.Driver:");
  lcd.print(readTemperature());
  lcd.setCursor(0, 1);
  lcd.print("Batteria:");
  lcd.print(" ");
  lcd.print("%");
- delay(50);
+ delay(20);
+ if (startSetSpeed =! map(analogRead(A0), 0, 1023, 0, 150)) changeSpeed();
  lcd.clear();
 }
 float readTemperature(){
   val_Adc = analogRead(0);
   float tempe = ((val_Adc * 0.00488) - 0.5) / 0.01;
   return tempe;
+}
+void changeSpeed(){
+  int a = 0; 
+  do{
+    oldSpeed = newSpeed;
+    newSpeed = map(analogRead(A0), 0, 1023, 0, 150);
+    if(newSpeed > oldSpeed) oldSpeed++;
+    else if(newSpeed < oldSpeed) oldSpeed--;
+    else if(newSpeed = oldSpeed) a++;
+    motor_1.write(oldSpeed);
+    delay(5);
+  }while (a =! 30 && a < 30);
 }
