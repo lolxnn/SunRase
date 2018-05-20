@@ -3,14 +3,16 @@
  * Code by: Reolfi Riccardo & Incolto Davide.
 */
 #include <LiquidCrystal.h>
+#include <Servo.h>
+Servo motor_1;
 const int batPin = A1;
 int val_Adc = 0;
 unsigned int oldSpeed;
 unsigned int newSpeed;
 int startSetSpeed;
-LiquidCrystal lcd(4, 6, 10, 11, 12, 13);
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 void setup() {
-  motor_1.attach(9);
+  motor_1.attach(8);
   pinMode(A0, INPUT);
   pinMode(A1, INPUT);
   pinMode(A3, INPUT);
@@ -20,15 +22,15 @@ void setup() {
   lcd.print("SunRase 4.0");
   int velocitaBrushless = 150;
   delay(1000);
-  for(int i = 80; i < velocitaBrushless; i++){
+  for(int i = 70; i < velocitaBrushless; i++){
     lcd.setCursor(0, 0);
     lcd.print("Avvio Motori");
     lcd.setCursor(0, 1);
     lcd.print("Stato:");
-    lcd.print(map(i, 80, 150, 0, 100));
+    lcd.print(map(i, 70, 150, 0, 100));
     lcd.print("%");
     motor_1.write(i);
-    delay(110);
+    delay(40);
     lcd.clear();
   }
   lcd.clear();
@@ -37,17 +39,26 @@ void setup() {
 
 void loop() {
  lcd.setCursor(0, 0);
- lcd.print("Temp.Driver:");
- lcd.print(readTemperature());
+ lcd.print("Progetto SunRase");
  lcd.setCursor(0, 1);
- lcd.print("Batteria:");
- lcd.print(" ");
- lcd.print("%");
- delay(20);
- if (startSetSpeed =! map(analogRead(A0), 0, 1023, 0, 150)) changeSpeed();
+ lcd.print("By ISS Cairo M.");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Gestito da");
+ lcd.setCursor(0, 1);
+ lcd.print("Arduino");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Interamente");
+ lcd.setCursor(0, 1);
+ lcd.print("Autonomo");
+ delay(4000);
  lcd.clear();
 }
-float readTemperature(){
+//Parte di codice non usata ma funzionante
+/*float readTemperature(){
   val_Adc = analogRead(0);
   float tempe = ((val_Adc * 0.00488) - 0.5) / 0.01;
   return tempe;
@@ -64,3 +75,4 @@ void changeSpeed(){
     delay(5);
   }while (a =! 30 && a < 30);
 }
+*/
