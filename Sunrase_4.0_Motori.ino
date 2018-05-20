@@ -7,10 +7,12 @@ int motDestraI = 3;
 int motSinistraA = 4;
 int motSinistraI = 5;
 int magnetic = 6;
-int triggerDestra = 9;
-int echoDestra = 10;
-int triggerSinistra = 11;
-int echoSinistra = 12;
+int echoS = 8;
+int trigS = 7;
+int echoUp = 9;
+int trigUp = 10;
+int echoD = 11;
+int trigD = 12;
 int tempo_rotazione = 1500;
 long durata;
 long distanza;
@@ -21,10 +23,12 @@ void setup() {
   pinMode(motSinistraI, OUTPUT);
   pinMode(motSinistraA, OUTPUT);
   pinMode(magnetic, INPUT);
-  pinMode(triggerDestra, OUTPUT);
-  pinMode(echoDestra, INPUT);
-  pinMode(triggerSinistra, OUTPUT);
-  pinMode(echoSinistra, INPUT);
+  pinMode(trigD, OUTPUT);
+  pinMode(echoD, INPUT);
+  pinMode(trigS, OUTPUT);
+  pinMode(echoS, INPUT);
+  pinMode(trigUp, OUTPUT);
+  pinMode(echoUp, INPUT);
   Serial.begin(9600);
   randomSeed(analogRead(0));
 }
@@ -39,25 +43,35 @@ void checkMag(){
   if(digitalRead(magnetic) == 1) giraCasuale();
 }
 bool destraCheck(){
-  digitalWrite(triggerDestra, LOW);
-  digitalWrite(triggerDestra, HIGH);
+  digitalWrite(trigD, LOW);
+  digitalWrite(trigD, HIGH);
   delayMicroseconds(10);
-  digitalWrite(triggerDestra, LOW);
-  durata = pulseIn(echoDestra, HIGH);
+  digitalWrite(trigD, LOW);
+  durata = pulseIn(echoD, HIGH);
+  distanza = 0.034 * durata / 2;
+  if(distanza < 40) return true;  
+  else return false;
+}
+bool sinistraCheck(){
+  digitalWrite(trigS, LOW);
+  digitalWrite(trigS, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigS, LOW);
+  durata = pulseIn(echoS, HIGH);
   distanza = 0.034 * durata / 2;
   if(distanza < 40) return true;  
   else return false;
  }
- bool sinistraCheck(){
-  digitalWrite(triggerSinistra, LOW);
-  digitalWrite(triggerSinistra, HIGH);
+bool upCheck(){
+  digitalWrite(trigUp, LOW);
+  digitalWrite(trigUp, HIGH);
   delayMicroseconds(10);
-  digitalWrite(triggerSinistra, LOW);
-  durata = pulseIn(echoSinistra, HIGH);
+  digitalWrite(trigUp, LOW);
+  durata = pulseIn(echoUp, HIGH);
   distanza = 0.034 * durata / 2;
   if(distanza < 40) return true;  
-  else return false;  
- }
+  else return false;
+}
 
 int randNum(){
  int randNumber = random(300);
@@ -109,8 +123,12 @@ void giraD(){
 void checkUltra(){
   bool SomeD = destraCheck();
   bool SomeS = sinistraCheck();
+  bool SomeUp = upCheck();
   if(SomeD == true) giraS();
   else if(SomeS == true) giraD();
+  else if(SomeUp == true) giraCasuale();
+  else if(SomeS == true && SomeUp == true) giraD();
+  else if(SomeD == true && SomeUp == true) giraS();  
   else if(SomeD == true && SomeS == true) giraCasuale();
 }
 void AvantiTutta(){
