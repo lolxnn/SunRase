@@ -13,7 +13,7 @@ int echoUp = 9;
 int trigUp = 10;
 int echoD = 11;
 int trigD = 12;
-int tempo_rotazione = 1500;
+int tempo_rotazione = 2000;
 long durata;
 long distanza;
 int val;
@@ -31,6 +31,7 @@ void setup() {
   pinMode(echoUp, INPUT);
   Serial.begin(9600);
   randomSeed(analogRead(0));
+  delay(5000);
 }
 void loop() {
  AvantiTutta();
@@ -49,7 +50,7 @@ bool destraCheck(){
   digitalWrite(trigD, LOW);
   durata = pulseIn(echoD, HIGH);
   distanza = 0.034 * durata / 2;
-  if(distanza < 40) return true;  
+  if(distanza < 15) return true;  
   else return false;
 }
 bool sinistraCheck(){
@@ -59,7 +60,7 @@ bool sinistraCheck(){
   digitalWrite(trigS, LOW);
   durata = pulseIn(echoS, HIGH);
   distanza = 0.034 * durata / 2;
-  if(distanza < 40) return true;  
+  if(distanza < 15) return true;  
   else return false;
  }
 bool upCheck(){
@@ -69,7 +70,7 @@ bool upCheck(){
   digitalWrite(trigUp, LOW);
   durata = pulseIn(echoUp, HIGH);
   distanza = 0.034 * durata / 2;
-  if(distanza < 40) return true;  
+  if(distanza < 15) return true;  
   else return false;
 }
 
@@ -124,11 +125,11 @@ void checkUltra(){
   bool SomeD = destraCheck();
   bool SomeS = sinistraCheck();
   bool SomeUp = upCheck();
-  if(SomeD == true) giraS();
-  else if(SomeS == true) giraD();
+  if(SomeD == true) giraD();
+  else if(SomeS == true) giraS();
   else if(SomeUp == true) giraCasuale();
-  else if(SomeS == true && SomeUp == true) giraD();
-  else if(SomeD == true && SomeUp == true) giraS();  
+  else if(SomeS == true && SomeUp == true) giraS();
+  else if(SomeD == true && SomeUp == true) giraD();  
   else if(SomeD == true && SomeS == true) giraCasuale();
 }
 void AvantiTutta(){
