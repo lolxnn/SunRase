@@ -2,17 +2,17 @@
  * SunRase 4.0 by: Reolfi Riccardo, Incolto Davide, Murialdo Andrea, Pastorino Simone.
  * Code by: Incolto Davide.
 */
-int motDestraA = 2;
-int motDestraI = 3;
-int motSinistraA = 4;
-int motSinistraI = 5;
-int magnetic = 6;
-int echoS = 8;
-int trigS = 7;
-int echoUp = 9;
-int trigUp = 10;
-int echoD = 11;
-int trigD = 12;
+#define motDestraA  2
+#define motDestraI 3
+#define motSinistraA 4
+#define motSinistraI 5
+#define magnetic 6
+#define echoS 8
+#define trigS 7
+#define echoUp 9
+#define trigUp 10
+#define echoD 11
+#define trigD 12
 int tempo_rotazione = 2000;
 long durata;
 long distanza;
