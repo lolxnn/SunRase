@@ -35,13 +35,10 @@ void setup() {
 }
 void loop() {
  AvantiTutta();
- checkMag();
+ if(digitalRead(magnetic) == 1) giraCasuale();
  delay(3);
  checkUltra();
  delay(5);
-}
-void checkMag(){
-  if(digitalRead(magnetic) == 1) giraCasuale();
 }
 bool destraCheck(){
   digitalWrite(trigD, LOW);
@@ -74,51 +71,31 @@ bool upCheck(){
   else return false;
 }
 
-int randNum(){
- int randNumber = random(300);
- int x;
- if(randNumber < 150){
-  x = 1;
-  return x;
-  }
- else if(randNumber > 149){
-  x = 2;
-  return x;
- }
-}
-
 void giraCasuale(){
-  int y = randNum();
+  int randNumber = random(300);
+  int y;
+  if(randNumber < 150) y = 1;
+  else if(randNumber > 149) y = 2;
   if(y == 1) giraD();
   else if(y ==2) giraS();
 }
 
 void giraD(){
-  for(int i = 0; i < 500; i++){
-      digitalWrite(motDestraA, LOW);
-      digitalWrite(motSinistraA, LOW);
-      delay(1);
-    }
-   for(int i = 0; i < 1000; i++){
-      digitalWrite(motDestraI, HIGH);
-      digitalWrite(motSinistraI, HIGH);
-      delay(1);
-   }
-   for(int i = 0; i < 10; i++){
-      digitalWrite(motDestraI, LOW);
-      digitalWrite(motSinistraI, LOW);
-      delay(1);
-   }
-   for(int i = 0; i < tempo_rotazione; i++){
-       digitalWrite(motDestraA, LOW);
-       digitalWrite(motSinistraA, HIGH);
-       delay(1);
-   }
-   for(int i = 0; i < 10; i++){
-       digitalWrite(motDestraA, LOW);
-       digitalWrite(motSinistraA, LOW);
-       delay(1);
-   }
+   digitalWrite(motDestraA, LOW);
+   digitalWrite(motSinistraA, LOW);
+   delay(500); 
+   digitalWrite(motDestraI, HIGH);
+   digitalWrite(motSinistraI, HIGH);
+   delay(1000);
+   digitalWrite(motDestraI, LOW);
+   digitalWrite(motSinistraI, LOW);
+   delay(10);
+   digitalWrite(motDestraA, LOW);
+   digitalWrite(motSinistraA, HIGH);
+   delay(tempo_rotazione);
+   digitalWrite(motDestraA, LOW);
+   digitalWrite(motSinistraA, LOW);
+   delay(10);
 }
 
 void checkUltra(){
@@ -128,8 +105,6 @@ void checkUltra(){
   if(SomeD == true) giraD();
   else if(SomeS == true) giraS();
   else if(SomeUp == true) giraCasuale();
-  else if(SomeS == true && SomeUp == true) giraS();
-  else if(SomeD == true && SomeUp == true) giraD();  
   else if(SomeD == true && SomeS == true) giraCasuale();
 }
 void AvantiTutta(){
@@ -140,29 +115,19 @@ void AvantiTutta(){
   digitalWrite(motSinistraA, HIGH);
 }
 void giraS(){
-   for(int i = 0; i < 500; i++){
-      digitalWrite(motDestraA, LOW);
-      digitalWrite(motSinistraA, LOW);
-      delay(1);
-    }
-   for(int i = 0; i < 1000; i++){
-      digitalWrite(motDestraI, HIGH);
-      digitalWrite(motSinistraI, HIGH);
-      delay(1);
-   }
-   for(int i = 0; i < 10; i++){
-      digitalWrite(motDestraI, LOW);
-      digitalWrite(motSinistraI, LOW);
-      delay(1);
-   }
-   for(int i = 0; i < tempo_rotazione; i++){
-       digitalWrite(motDestraA, HIGH);
-       digitalWrite(motSinistraA, LOW);
-       delay(1);
-   }
-   for(int i = 0; i < 10; i++){
-       digitalWrite(motDestraA, LOW);
-       digitalWrite(motSinistraA, LOW);
-       delay(1);
-   }
+   digitalWrite(motDestraA, LOW);
+   digitalWrite(motSinistraA, LOW);
+   delay(500);
+   digitalWrite(motDestraI, HIGH);
+   digitalWrite(motSinistraI, HIGH);
+   delay(1000);
+   digitalWrite(motDestraI, LOW);
+   digitalWrite(motSinistraI, LOW);
+   delay(10);
+   digitalWrite(motDestraA, HIGH);
+   digitalWrite(motSinistraA, LOW);
+   delay(tempo_rotazione);
+   digitalWrite(motDestraA, LOW);
+   digitalWrite(motSinistraA, LOW);
+   delay(10);
 }
