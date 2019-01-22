@@ -17,6 +17,7 @@ int tempo_rotazione = 2000;
 long durata;
 long distanza;
 int val;
+int randNumber;
 void setup() {
   pinMode(motDestraI, OUTPUT);
   pinMode(motDestraA, OUTPUT);
@@ -29,7 +30,6 @@ void setup() {
   pinMode(echoS, INPUT);
   pinMode(trigUp, OUTPUT);
   pinMode(echoUp, INPUT);
-  Serial.begin(9600);
   randomSeed(analogRead(0));
   delay(5000);
 }
@@ -72,12 +72,9 @@ bool upCheck(){
 }
 
 void giraCasuale(){
-  int randNumber = random(300);
-  int y;
-  if(randNumber < 150) y = 1;
-  else if(randNumber > 149) y = 2;
-  if(y == 1) giraD();
-  else if(y ==2) giraS();
+  randNumber = random(300);
+  if(randNumber < 150) giraD();
+  else if(randNumber > 149) giraS();
 }
 
 void giraD(){
